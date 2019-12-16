@@ -1,10 +1,11 @@
 const express = require('express');
 const _ = require('underscore');
+const { verificaToken } = require('../middlewares/autenticacion')
 const app = express();
 
 const Prestamos = require('../models/prestamos');
 
-app.get('/prestamos', (req, res) => {
+app.get('/prestamos', [verificaToken], (req, res) => {
     Prestamos.find({ disponible: true })
         .exec((err, prestamos) => {
             if (err) {
